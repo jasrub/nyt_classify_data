@@ -1,0 +1,8 @@
+train
+test
+model
+*.pyc
+venv
+text8*
+.DS_Store
+scalar
