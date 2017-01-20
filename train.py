@@ -10,20 +10,21 @@ print "model_loaded"
 labels = []
 with open('labels.json') as data_file:
   labels = json.load(data_file)
+scaler = load_from_disk('./scalar/scalar')
 print ("%d labels"%len(labels))
 print labels[:20]
 train_dir = "./train"
-model = MagpieModel(word2vec_model=word2vecmodel, labels=labels)
+model = MagpieModel(word2vec_model=word2vecmodel, labels=labels, scaler=scaler)
 print "initializing word vectors..."
 
 #magpie.utils.save_to_disk('embeddings', model.word2vec_model)
-magpie.utils.save_to_disk('./scalar/scalar', model.scaler, overwrite=True)
+# magpie.utils.save_to_disk('./scalar/scalar', model.scaler, overwrite=True)
 
 print "embeddings saved to disk"
 print "training for 5 epochs"
 print (model)
-model.fit_scaler('./train')
-magpie.utils.save_to_disk('./scalar/scalar', model.scaler, overwrite=True)
+# model.fit_scaler('./train')
+# magpie.utils.save_to_disk('./scalar/scalar', model.scaler, overwrite=True)
 model.batch_train(train_dir, word2vecmodel.vocab.keys(), test_dir='./test', nb_epochs=5)
 magpie.utils.save_to_disk('./scalar/scalar', model.scaler, overwrite=True)
 
