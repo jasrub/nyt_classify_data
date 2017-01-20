@@ -10,7 +10,7 @@ print "model_loaded"
 labels = []
 with open('labels.json') as data_file:
   labels = json.load(data_file)
-scaler = magpie.utilsload_from_disk('./scalar/scalar')
+scaler = magpie.utils.load_from_disk('./scalar/scalar')
 print ("%d labels"%len(labels))
 print labels[:20]
 train_dir = "./train"
