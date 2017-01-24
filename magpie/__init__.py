@@ -125,6 +125,7 @@ class MagpieModel(object):
             validation_data=test_data,
             callbacks=callbacks or [],
             verbose=verbose,
+            nb_val_samples=10000
         )
 
     def predict_from_file(self, filepath):
