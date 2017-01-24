@@ -20,7 +20,7 @@ SCALER_PATH = os.path.join(
 NN_ARCHITECTURE = 'cnn'
 
 # Training parameters
-BATCH_SIZE = 64
+BATCH_SIZE = 128
 NB_EPOCHS = 1
 
 # Number of tokens to save from the abstract, zero padded
