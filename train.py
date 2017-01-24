@@ -2,6 +2,7 @@ from magpie import MagpieModel
 import magpie.utils
 import json
 import gensim
+import os
 
 # Load Google's pre-trained Word2Vec model.
 print "Loading pre-trained word to vec model"
