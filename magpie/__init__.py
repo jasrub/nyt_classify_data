@@ -120,7 +120,7 @@ class MagpieModel(object):
 
         return self.keras_model.fit_generator(
             train_generator,
-            len({filename[:-4] for filename in os.listdir(train_dir)}),
+            len({filename[:-4] for filename in os.listdir(train_dir) if filename.endswith('.txt')}),
             nb_epochs,
             validation_data=test_data,
             callbacks=callbacks or [],

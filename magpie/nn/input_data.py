@@ -45,8 +45,12 @@ def get_data_for_model(train_dir, labels, test_dir=None, nn_model=None,
 
     test_data = None
     if test_dir:
-        test_files = {filename[:-4] for filename in os.listdir(test_dir)}
-        test_data = build_x_and_y(test_files, test_dir, **kwargs)
+        if as_generator:
+            test_filename_it = FilenameIterator(test_dir, batch_size)
+            test_data = iterate_over_batches(test_filename_it, **kwargs)
+        else:
+            test_files = {filename[:-4] for filename in os.listdir(test_dir) if filename.endswith('.txt')}
+            test_data = build_x_and_y(test_files, test_dir, **kwargs)
 
     return train_data, test_data
 
@@ -118,7 +122,7 @@ class FilenameIterator(object):
         self.dirname = dirname
         self.batch_size = batch_size
         self.lock = threading.Lock()
-        self.files = list({filename[:-4] for filename in os.listdir(dirname)})
+        self.files = list({filename[:-4] for filename in os.listdir(dirname) if filename.endswith('.txt')})
         self.i = 0
 
     def __iter__(self):
