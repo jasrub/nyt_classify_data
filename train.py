@@ -25,7 +25,12 @@ print "training for 5 epochs"
 print (model)
 # model.fit_scaler('./train')
 # magpie.utils.save_to_disk('./scalar/scalar', model.scaler, overwrite=True)
-model.batch_train(train_dir, labels, test_dir='./test', nb_epochs=5)
-magpie.utils.save_to_disk('./scalar/scalar', model.scaler, overwrite=True)
+save_path='./saved_models'
+if not os.path.exists(save_path):
+    os.makedirs(save_path)
+filepath = save_path+"/weights.{epoch:02d}-{val_loss:.2f}.hdf5"
+save_chackpoint = keras.callbacks.ModelCheckpoint(filepath, monitor='val_loss', verbose=1, save_best_only=False, save_weights_only=False, mode='auto', period=1)
+model.batch_train(train_dir, labels, test_dir='./test', nb_epochs=5, callbacks=[save_chackpoint])
+magpie.utils.save_to_disk('./scalar/scalar_2', model.scaler, overwrite=True)
 
-model.keras_model.save('trained_model.h5')
+model.keras_model.save(os.path.join(save_path,'trained_model.h5'))
