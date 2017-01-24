@@ -65,6 +65,7 @@ def build_x_and_y(filenames, file_directory, **kwargs):
     scaler = kwargs['scaler']
     nn_model = kwargs['nn_model']
 
+    print "x matrix dims: (%d, %d, %d)"%(len(filenames), SAMPLE_LENGTH, EMBEDDING_SIZE)
     x_matrix = np.zeros((len(filenames), SAMPLE_LENGTH, EMBEDDING_SIZE))
     y_matrix = np.zeros((len(filenames), len(label_indices)), dtype=np.bool_)
 

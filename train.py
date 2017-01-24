@@ -25,7 +25,7 @@ print "training for 5 epochs"
 print (model)
 # model.fit_scaler('./train')
 # magpie.utils.save_to_disk('./scalar/scalar', model.scaler, overwrite=True)
-model.batch_train(train_dir, word2vecmodel.vocab.keys(), test_dir='./test', nb_epochs=5)
+model.batch_train(train_dir, labels, test_dir='./test', nb_epochs=5)
 magpie.utils.save_to_disk('./scalar/scalar', model.scaler, overwrite=True)
 
 model.keras_model.save('trained_model.h5')
