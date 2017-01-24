@@ -4,7 +4,7 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CORPUS_DIR = os.path.join(ROOT_DIR, 'data', 'hep-keywords')
 
 # word2vec & scaler
-EMBEDDING_SIZE = 100
+EMBEDDING_SIZE = 300
 WORD2VEC_MODELPATH = os.path.join(
     CORPUS_DIR,
     'w2v_models',
