@@ -113,6 +113,31 @@ def iterate_over_batches(filename_it, **kwargs):
         files = filename_it.next()
         yield build_x_and_y(files, filename_it.dirname, **kwargs)
 
+class MongoIterator(object):
+    """ A threadsafe iterator yielding a fixed number of filenames from a given
+     folder and looping forever. Can be used for external memory training. """
+    def __init__(self, ids, batch_size):
+        self.batch_size = batch_size
+        self.lock = threading.Lock()
+        self.ids = ids
+        self.i = 0
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        with self.lock:
+
+            if self.i == len(self.ids):
+                self.i = 0
+
+            batch = self.ids[self.i:self.i + self.batch_size]
+            if len(batch) < self.batch_size:
+                self.i = 0
+            else:
+                self.i += self.batch_size
+
+            return batch
 
 class FilenameIterator(object):
     """ A threadsafe iterator yielding a fixed number of filenames from a given

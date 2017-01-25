@@ -1,4 +1,5 @@
 import os
+import re
 
 import nltk
 
@@ -48,7 +49,7 @@ class Document(object):
         return [w for w in self.get_all_words() if w not in STOPWORDS]
 
     def read_sentences(self):
-        lines = self.text.split('\n')
+        lines = re.split('\n|.', self.text)
         raw = [sentence for inner_list in lines
                for sentence in sent_tokenize(inner_list)]
         return [[w.lower() for w in word_tokenize(s) if w not in PUNCTUATION]

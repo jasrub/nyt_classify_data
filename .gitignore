@@ -6,3 +6,5 @@ venv
 text8*
 .DS_Store
 scalar
+.idea/
+saved_models/
