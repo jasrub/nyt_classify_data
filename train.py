@@ -3,6 +3,7 @@ import magpie.utils
 import json
 import gensim
 import os
+import keras
 
 # Load Google's pre-trained Word2Vec model.
 print "Loading pre-trained word to vec model"
