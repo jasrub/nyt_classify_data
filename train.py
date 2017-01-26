@@ -30,14 +30,14 @@ print "Loading pre-trained word to vec model"
 word2vecmodel = gensim.models.Word2Vec.load_word2vec_format('./model/GoogleNews-vectors-negative300.bin', binary=True)
 print "model_loaded"
 
-#scaler = magpie_mongo.utils.load_from_disk('./scalar/scalar')
+scaler = magpie_mongo.utils.load_from_disk('./scalar/scalar_labels_long')
 
-model = MagpieModel(word2vec_model=word2vecmodel, labels=labels)
+model = MagpieModel(word2vec_model=word2vecmodel, labels=labels, scaler=scaler)
 
 print "training for 5 epochs"
 print (model)
-model.fit_scaler_mongo(mongo_collection, train_ids)
-magpie_mongo.utils.save_to_disk('./scalar/scalar_labels_long', model.scaler, overwrite=True)
+#model.fit_scaler_mongo(mongo_collection, train_ids)
+#magpie_mongo.utils.save_to_disk('./scalar/scalar_labels_long', model.scaler, overwrite=True)
 save_path='./saved_models_labels_long'
 if not os.path.exists(save_path):
     os.makedirs(save_path)

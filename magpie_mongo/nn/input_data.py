@@ -81,7 +81,7 @@ def get_data_for_model_mongo(mongo_collection, train_ids, labels, test_ids=None,
 
     if as_generator:
         filename_it = MongoIterator(train_ids, batch_size)
-        train_data = iterate_over_batches_mongo(filename_it, mongo_collection **kwargs)
+        train_data = iterate_over_batches_mongo(filename_it, mongo_collection, **kwargs)
     else:
         train_data = build_x_and_y_mongo(train_ids, mongo_collection, **kwargs)
 
@@ -89,7 +89,7 @@ def get_data_for_model_mongo(mongo_collection, train_ids, labels, test_ids=None,
     if test_ids:
         if as_generator:
             test_filename_it = MongoIterator(test_ids, batch_size)
-            test_data = iterate_over_batches(test_filename_it, mongo_collection, **kwargs)
+            test_data = iterate_over_batches_mongo(test_filename_it, mongo_collection, **kwargs)
         else:
             test_data = build_x_and_y_mongo(test_ids, mongo_collection, **kwargs)
 
@@ -161,8 +161,8 @@ def build_x_and_y_mongo(ids, mongo_collection, **kwargs):
 
     docs = mongo_collection.find({"_id":{"$in":ids}})
 
-    for d in docs:
-        doc_id = d["_id"]
+    for doc_id, d in enumerate(docs):
+        #doc_id = d["_id"]
         doc = Document(doc_id, None, text=d["full_text"])
         words = doc.get_all_words()[:SAMPLE_LENGTH]
 
@@ -171,7 +171,7 @@ def build_x_and_y_mongo(ids, mongo_collection, **kwargs):
                 word_vector = word2vec_model[w].reshape(1, -1)
                 x_matrix[doc_id][i] = scaler.transform(word_vector, copy=True)[0]
 
-        d_labels = set([label.lower() for label in (doc["general_online_descriptors"] + doc["descriptors"] + doc["online_descriptors"])])
+        d_labels = set([label.lower() for label in (d["general_online_descriptors"] + d["descriptors"] + d["online_descriptors"])])
 
         labels = get_answers_for_doc(
             None,
@@ -206,7 +206,7 @@ def iterate_over_batches(filename_it, **kwargs):
         files = filename_it.next()
         yield build_x_and_y(files, filename_it.dirname, **kwargs)
 
-def iterate_over_batches_mongo(mongo_collection, filename_it, **kwargs):
+def iterate_over_batches_mongo(filename_it, mongo_collection, **kwargs):
     """
     Iterate infinitely over a given filename iterator
     :param filename_it: FilenameIterator object
