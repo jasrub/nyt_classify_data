@@ -63,8 +63,10 @@ def get_documents_from_mongo(ids, mongo_collection, as_generator=True, shuffle=F
     docs_step = 500000
     steps_times = len(ids)//docs_step
     steps = [docs_step * i for i in range(steps_times+1)]+[len(ids)]
+    cursors = [mongo_collection.find({"_id": {"$in": ids[steps[i-1]:steps[i]]}}) for i in range(1, len(steps))]
     generator = (Document(doc_id, None, text=d["full_text"]) for doc_id,
-                 d in enumerate(mongo_collection.find({"_id": {"$in": ids[steps[i-1]:steps[i]]}}) for i in steps))
+                 d in enumerate([x for cursor in cursors for x in cursor]))
+    print "generator length: %d"%len(generator)
     return generator if as_generator else list(generator)
 
 
