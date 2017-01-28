@@ -172,13 +172,14 @@ def build_x_and_y_mongo(ids, mongo_collection, **kwargs):
                 x_matrix[doc_id][i] = scaler.transform(word_vector, copy=True)[0]
 
         d_labels = set([label.lower() for label in (d["general_online_descriptors"] + d["descriptors"] + d["online_descriptors"])])
-
-        labels = get_answers_for_doc(
-            None,
-            None,
-            labels_arr=d_labels,
-            filtered_by=set(label_indices.keys()),
-        )
+        labels=[]
+        if len(d_labels)>0:
+            labels = get_answers_for_doc(
+                None,
+                None,
+                labels_arr=d_labels,
+                filtered_by=set(label_indices.keys()),
+            )
 
         for lab in labels:
             index = label_indices[lab]
