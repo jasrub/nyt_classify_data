@@ -9,3 +9,4 @@ scalar
 .idea/
 saved_models/
 saved_models*
+.ipynb_checkpoints/
