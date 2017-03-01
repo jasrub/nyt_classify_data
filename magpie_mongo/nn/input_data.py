@@ -171,7 +171,8 @@ def build_x_and_y_mongo(ids, mongo_collection, **kwargs):
                 word_vector = word2vec_model[w].reshape(1, -1)
                 x_matrix[doc_id][i] = scaler.transform(word_vector, copy=True)[0]
 
-        d_labels = set([label.lower() for label in (d["general_online_descriptors"] + d["descriptors"] + d["online_descriptors"]+ d["taxonomic_classifiers"])])
+        #d_labels = set([label.lower() for label in (d["general_online_descriptors"] + d["descriptors"] + d["online_descriptors"]+ d["taxonomic_classifiers"])])
+        d_labels = set([label for label in d["taxonomic_classifiers"]])
         labels=[]
         if len(d_labels)>0:
             labels = get_answers_for_doc(
