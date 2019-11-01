@@ -7,7 +7,7 @@ gensim==0.13.4
 h5py==2.6.0
 Keras==1.2.1
 mock==2.0.0
-nltk==3.2.2
+nltk==3.4.5
 numpy==1.12.0
 packaging==16.8
 pbr==1.10.0
